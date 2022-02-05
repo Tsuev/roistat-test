@@ -1,18 +1,38 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="changeModalShow" class="btn btn-primary m-2">
+      Добавить
+    </button>
+
+    <rt-table :key="rerenderComponent"/>
+
+    <rt-modal @modalClose="changeModalShow" :isShowModal="isShowModal" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import RtModal from "../components/rt-modal.vue";
+import RtTable from "../components/rt-table.vue";
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  components: { RtTable, RtModal },
+  name: "home",
+  data(){
+    return {
+      rerenderComponent: 0
+    }
+  },
+  methods: {
+    changeModalShow() {
+      this.$store.commit("CHANGE_MODAL_SHOW");
+      this.rerenderComponent++
+    },
+  },
+  computed: {
+    isShowModal() {
+      return this.$store.getters["GET_MODAL_VISIBLE_STATE"];
+    },
+  },
+};
 </script>
+
